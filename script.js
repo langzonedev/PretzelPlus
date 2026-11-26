@@ -28,6 +28,7 @@ if ('IntersectionObserver' in window) {
     });
   }, { threshold: 0.12 });
 
+  document.documentElement.classList.add('js-reveal');
   document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
 } else {
   document.querySelectorAll('.reveal').forEach(element => element.classList.add('visible'));

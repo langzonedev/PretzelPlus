@@ -177,3 +177,24 @@ input:focus, textarea:focus { outline: 3px solid rgba(255, 124, 48, .28); border
 .not-found img { width: 104px; height: auto; margin: 0 auto 25px; }
 .not-found h1 { font: 400 clamp(2.6rem, 8vw, 5rem)/1.05 var(--display); margin: 0; }
 .not-found p { color: var(--on-dark-muted); margin: 16px 0 24px; }
+
+/* Intentional showground identity: preserve original logo geometry. */
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero::before, .hero::after { content: ""; position: absolute; width: clamp(35px, 8vw, 110px); height: clamp(35px, 8vw, 110px); background: var(--orange); z-index: -1; pointer-events: none; }
+.hero::before { top: 0; left: 0; clip-path: polygon(0 0,100% 0,0 100%); }
+.hero::after { bottom: 0; right: 0; clip-path: polygon(100% 0,100% 100%,0 100%); }
+.find-section { background: var(--orange); color: var(--black); padding: 42px 0; }
+.find-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
+.find-section .eyebrow { color: var(--black); }
+.find-section h2 { font: 400 clamp(2.2rem,5vw,3.7rem)/1.05 var(--display); margin: 0; }
+.event-status { font-weight: 800; margin: 0; }
+.find-grid p:not(.eyebrow) { margin-block: 0 10px; }
+.menu-section { border-top: 4px solid var(--orange); }
+.flavour-card { border-top: 5px solid var(--orange); }
+.events-section .feature-list > div { border-left: 3px solid var(--orange); padding-left: 15px; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+.reveal { opacity: 1; transform: none; }
+.js-reveal .reveal:not(.visible) { opacity: 0; transform: translateY(20px); }
+@media (max-width: 1050px) { .site-nav { gap: 14px; } }
+@media (max-width: 900px) { .find-grid { grid-template-columns: 1fr; gap: 18px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } .js-reveal .reveal:not(.visible) { opacity: 1; transform: none; } }
