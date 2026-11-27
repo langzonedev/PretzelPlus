@@ -13,5 +13,3 @@ if(toggle&&nav){
 }
 const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
 const form=document.getElementById('demo-form');if(form)form.addEventListener('submit',e=>e.preventDefault());
-const categories=[...document.querySelectorAll('.menu-list-card')];
-if(categories.length){const compact=matchMedia('(max-width:620px)');const layout=()=>categories.forEach((item,i)=>item.open=!compact.matches||i===0);layout();compact.addEventListener('change',layout);}
