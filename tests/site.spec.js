@@ -36,3 +36,16 @@ test('native menu without JavaScript',async({browser})=>{
  await expect(page.locator('.menu-list-card[open]')).toHaveCount(0);await page.locator('summary').first().click();await expect(page.locator('.menu-list-card').first()).toHaveAttribute('open','');
  await context.close();
 });
+
+test('motion affordances and navigation scrim',async({page})=>{
+ await page.goto('/menu.html');
+ await expect(page.locator('.category-plus')).toHaveCount(4);
+ await expect(page.locator('.menu-list-card[open]')).toHaveCount(0);
+ const toggle=page.locator('.menu-toggle');await toggle.click();
+ await expect(page.locator('.nav-scrim')).toHaveClass(/is-visible/);
+ await expect(page.locator('.nav-indicator')).toBeVisible();
+ await page.keyboard.press('Escape');await expect(page.locator('.nav-scrim')).not.toHaveClass(/is-visible/);
+ await expect(toggle).toBeFocused();
+ const summary=page.locator('summary').first();await summary.click();await expect(page.locator('.menu-list-card').first()).toHaveAttribute('open','');
+ await summary.click();await expect(page.locator('.menu-list-card').first()).not.toHaveAttribute('open','');
+});
