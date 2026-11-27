@@ -49,3 +49,23 @@ test('motion affordances and navigation scrim',async({page})=>{
  const summary=page.locator('summary').first();await summary.click();await expect(page.locator('.menu-list-card').first()).toHaveAttribute('open','');
  await summary.click();await expect(page.locator('.menu-list-card').first()).not.toHaveAttribute('open','');
 });
+
+test('selecting a destination dismisses navigation before the next page loads',async({page})=>{
+ await page.goto('/index.html');
+ const toggle=page.locator('.menu-toggle');await toggle.click();
+ await expect(page.locator('.site-nav')).toHaveClass(/open/);
+ let release;const gate=new Promise(resolve=>{release=resolve;});
+ let reached;const requested=new Promise(resolve=>{reached=resolve;});
+ await page.route('**/menu.html',async route=>{reached();await gate;await route.continue();});
+ try{
+  await page.locator('.site-nav a[href="menu.html"]').dispatchEvent('click',{button:0});
+  await requested;
+  await expect(toggle).toHaveAttribute('aria-expanded','false');
+  await expect(page.locator('.site-nav')).toHaveCSS('visibility','hidden');
+  await expect(page.locator('.nav-scrim')).toHaveCSS('opacity','0');
+ }finally{release();}
+ await page.waitForURL('**/menu.html');
+ await expect(page.locator('.menu-toggle')).toHaveAttribute('aria-expanded','false');
+ await page.locator('.menu-toggle').click();
+ await expect(page.locator('.site-nav a[aria-current="page"]')).toHaveText('Menu');
+});

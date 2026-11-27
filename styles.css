@@ -328,3 +328,11 @@ input:focus,textarea:focus{box-shadow:0 0 0 3px #ff7c3026;}
  ::view-transition-new(root){animation-duration:var(--motion-page);}
 }
 @media(prefers-reduced-motion:reduce){.nav-scrim,.category-plus::before,.category-plus::after,.nav-indicator{transition:none!important;}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important;}}
+
+/* Selecting a destination is immediate; never carry an open panel into a page snapshot. */
+.nav-departing .site-nav,.nav-departing .nav-scrim{transition:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;}
+.nav-departing .menu-toggle .menu-line{transition:none!important;}
+@media(prefers-reduced-motion:no-preference){
+ ::view-transition-old(site-header){opacity:0;animation:none;}
+ ::view-transition-new(site-header){animation:none;}
+}
