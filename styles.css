@@ -336,3 +336,21 @@ input:focus,textarea:focus{box-shadow:0 0 0 3px #ff7c3026;}
  ::view-transition-old(site-header){opacity:0;animation:none;}
  ::view-transition-new(site-header){animation:none;}
 }
+
+/* Navigation owns its press feedback; native touch overlays must not survive navigation. */
+.js-nav .site-nav, .js-nav .site-nav>a, .menu-toggle {
+  -webkit-tap-highlight-color: transparent;
+}
+.js-nav .site-nav.open>a:active {
+  background: #ff7c3018;
+  transition: none;
+}
+.js-nav .site-nav>a:focus-visible {
+  outline-color: var(--orange);
+  outline-offset: -3px;
+}
+.nav-departing .site-nav { display: none !important; }
+/* Avoid a stale interactive header snapshot during cross-document navigation. */
+@media(prefers-reduced-motion:no-preference){
+  html.nav-departing .site-header { view-transition-name: none; }
+}
